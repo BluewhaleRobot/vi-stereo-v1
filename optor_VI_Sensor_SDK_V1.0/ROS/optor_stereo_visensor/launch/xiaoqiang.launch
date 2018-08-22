@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="optor_stereo_visensor_ros" type="stereo_visensor_node" name="camera"  args="$(find optor_stereo_visensor_ros)/optor_VISensor_Setups.txt" output="screen">
+    <param name="left_camera_frame_id" value="head_camera_left" />
+    <param name="left_camera_name" value="head_camera_left"/>
+    <param name="left_camera_info_url" value="file://$(find optor_stereo_visensor_ros)/launch/head_camera_left.yaml"/>
+    <param name="right_camera_frame_id" value="head_camera_right" />
+    <param name="right_camera_name" value="head_camera_right"/>
+    <param name="right_camera_info_url" value="file://$(find optor_stereo_visensor_ros)/launch/head_camera_right.yaml"/>
+  </node>
+</launch>

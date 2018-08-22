@@ -4,7 +4,9 @@
 int main(int argc, char**argv)
 {
   ros::init(argc, argv, "optor_stereo_visensor");
-  ros::NodeHandle nh;
+  ros::NodeHandle nh("~");
+  ros::NodeHandle nh_left("~/left");
+  ros::NodeHandle nh_right("~/right");
   char *path = "optor_VISensor_Setups.txt";
 
   if(argv[1])
@@ -13,16 +15,16 @@ int main(int argc, char**argv)
 
   }
 
-  StereoVisensorCam StereoVisensorStart(nh, path);
+  StereoVisensorCam StereoVisensorStart(nh, nh_left,nh_right,path);
 
-  
+
   if(!StereoVisensorStart.startCam())
     std::cout << "ERROR: camera open failed" << std::endl;
   if(!StereoVisensorStart.startImu())
     std::cout << "ERROR: imu open failed" << std::endl;
-  
+
   StereoVisensorStart.exectu();
-  
+
 
   return 0;
 }

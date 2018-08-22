@@ -18,13 +18,13 @@
 #ifndef STEREOVISENSORCAM_H
 #define STEREOVISENSORCAM_H
 
-#include "ros/ros.h" 
+#include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include "sensor_msgs/Imu.h"
 
-#include <opencv2/core/core.hpp>  
+#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 #include<boost/thread/thread.hpp>
@@ -36,29 +36,35 @@
 #include <string.h>
 
 #include "optorcam.h"
+#include <camera_info_manager/camera_info_manager.h>
 
 class StereoVisensorCam
 {
 public:
-    StereoVisensorCam(ros::NodeHandle nh,char path[]);
+    StereoVisensorCam(ros::NodeHandle nh,ros::NodeHandle nh_left,ros::NodeHandle nh_right,char path[]);
     ~StereoVisensorCam();
     bool startCam();
     bool startImu();
     void img_data_stream();
     void imu_data_stream();
     void exectu();
-    
-    
+
+
   boost::thread *cam_thread_;
   boost::thread *imu_thread_;
-    
+
     cv::Mat img_left_, img_right_;
     cv_bridge::CvImage left_bridge_, right_bridge_;
-    image_transport::Publisher pub_caml_, pub_camr_;
-    
-    
+    image_transport::CameraPublisher pub_caml_, pub_camr_;
+
+    std::string left_camera_name_, left_camera_info_url_;
+    std::string right_camera_name_, right_camera_info_url_;
+
+    boost::shared_ptr<camera_info_manager::CameraInfoManager> left_cinfo_;
+    boost::shared_ptr<camera_info_manager::CameraInfoManager> right_cinfo_;
+
     ros::Publisher pub_imu_;
-    
+
     //线程控制
     bool visensor_Close_IMU_viewer_;
     bool close_img_viewer_;

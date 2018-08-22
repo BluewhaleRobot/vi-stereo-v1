@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   message_generation
   message_filters
+  camera_info_manager
 )
 
 find_package(OpenCV REQUIRED)
@@ -30,11 +31,11 @@ add_library(optorcam src/optorcam.cpp)
 add_library(optorimu src/optorimu.cpp)
 add_library(optorusb src/optorusb.cpp)
 
-add_library(stereo_visensor_cam src/stereo_visensor_cam.cpp) 
+add_library(stereo_visensor_cam src/stereo_visensor_cam.cpp)
 target_link_libraries(stereo_visensor_cam optorcam optorimu optorusb usb-1.0 ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 
-add_executable(stereo_visensor_node src/stereo_visensor_node.cpp) 
+add_executable(stereo_visensor_node src/stereo_visensor_node.cpp)
 target_link_libraries(stereo_visensor_node stereo_visensor_cam)
 
 
